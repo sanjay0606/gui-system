@@ -1,0 +1,282 @@
+from tkinter import *
+from tkinter import font
+import mysql.connector as sqlc
+from PIL import ImageTk,Image
+from tkinter import messagebox
+
+def show():
+    db=sqlc.connect(
+        host="localhost",
+        username="root",
+        password="S@njay123",
+        database="database_4"
+    )
+
+    cursor=db.cursor()
+    cursor.execute("SELECT * FROM store")
+    details=cursor.fetchall()
+    for i in range(0,len(details)):
+        mylist.insert(i,"Product Id:"+str(details[i][0])+"  Product Name:"+str(details[i][1])+"   Price:"+(details[i][2])+"  Quantity:"+(details[i][3])+"   Company:"+(details[i][4]) +"  Company contact:"+(details[i][5]))
+        
+        
+        
+    
+
+    print(details)
+
+
+
+
+
+    db.commit()
+    db.close()
+
+
+def update():
+    
+
+    
+
+    db=sqlc.connect(
+        host="localhost",
+        username="root",
+        password="S@njay123",
+        database="database_4"
+    )
+
+    cursor=db.cursor()
+
+    cursor.execute("SELECT * FROM store WHERE p_id=%s",(entry1.get(),))
+    data=cursor.fetchone()
+    print(data)
+    cursor.execute("UPDATE store SET product_name=%s,price=%s,quantity=%s,company=%s,comp_contact=%s WHERE p_id=%s",(entry2.get(),entry3.get(),entry4.get(),entry5.get(),entry6.get(),str(data[0])))
+    message4=messagebox.showinfo("","Updated Successfully!")
+
+
+    db.commit()
+    db.close()
+
+
+    entry1.delete(0,END)
+    entry2.delete(0,END)
+    entry3.delete(0,END)
+    entry4.delete(0,END)
+    entry5.delete(0,END)
+    entry6.delete(0,END)
+
+
+
+def search():
+    global row
+    db=sqlc.connect(
+        host="localhost",
+        username="root",
+        password="S@njay123",
+        database="database_4"
+    )
+
+    cursor=db.cursor()
+    cursor.execute('SELECT * FROM store WHERE p_id=%s',(entry1.get(),))
+    row=cursor.fetchone()
+    print(row)
+    entry2.insert(0,row[1])
+    entry3.insert(0,row[2])
+    entry4.insert(0,row[3])
+    entry5.insert(0,row[4])
+    entry6.insert(0,row[5])
+    
+
+
+
+
+
+
+    db.commit()
+    db.close()
+
+
+def remove():
+    
+    
+
+    
+
+    db=sqlc.connect(
+        host="localhost",
+        username="root",
+        password="S@njay123",
+        database="database_4"
+    )
+
+    cursor=db.cursor()
+    cursor.execute('DELETE FROM store WHERE p_id=%s',(entry1.get(),))
+    message3=messagebox.showinfo("Deletion","Product removed successfully!")
+    
+
+    
+    
+
+
+
+
+
+
+    db.commit()
+    db.close()
+    entry1.delete(0,END)
+
+    
+def reset():
+
+    entry1.delete(0,END)
+    entry2.delete(0,END)
+    entry3.delete(0,END)
+    entry4.delete(0,END)
+    entry5.delete(0,END)
+    entry6.delete(0,END)
+    
+def save():
+    
+
+    if entry1.get()=="" or entry2.get()=="" or entry3.get()=="" or entry4.get()=="" or entry5.get()=="" or entry6.get()=="" :
+
+        message2=messagebox.showerror("Adiition of product","Failed")
+
+        
+
+    
+    
+
+    else:
+
+        db=sqlc.connect(
+        host="localhost",
+        username="root",
+        password="S@njay123",
+        database="database_4"
+        )
+
+        cursor=db.cursor()
+
+
+        
+        
+        cursor.execute("SELECT * FROM store")
+        records=cursor.fetchall()
+        print(records)
+        count=0
+        for x in records:
+
+            
+            if entry1.get()==str(x[0]):
+                count=count+1
+                message2=messagebox.showerror("Addition of product","product id already in use")
+
+                break
+                
+                
+
+
+
+        
+        print(count)
+        if count!=1:
+
+
+            sql="INSERT INTO store(p_id,product_name,price,quantity,company,comp_contact)VALUES(%s,%s,%s,%s,%s,%s)"
+            val=(entry1.get(),entry2.get(),entry3.get(),entry4.get(),entry5.get(),entry6.get())
+
+            cursor.execute(sql,val)
+
+            message1=messagebox.showinfo("Addition of product","Success")
+
+
+
+        db.commit()
+        db.close()
+
+    entry1.delete(0,END)
+    entry2.delete(0,END)
+    entry3.delete(0,END)
+    entry4.delete(0,END)
+    entry5.delete(0,END)
+    entry6.delete(0,END)
+
+
+root=Tk()
+root.title("Inventory App")
+
+
+frame1=Frame(root,bg="#000000",bd=4)
+frame1.grid(row=0,rowspan=2,column=0,columnspan=6,sticky=N+W+E+S)
+
+label1=Label(frame1,text="WAREHOUSE INVENTORY SYSTEM",font=("Times New Roman",30),pady=10,padx=10)
+label1.grid(row=0,column=0,columnspan=6)
+
+frame2=Frame(root,bg="#89B1B1",bd=4)
+frame2.grid(row=2,rowspan=6,column=0,columnspan=3,sticky=N+W+E+S)
+
+label2=Label(frame2,text="Product Id:",font=("Times New Roman",20),bg="#89B1B1",fg="#000000")
+label2.grid(row=0,column=0)
+label3=Label(frame2,text="Product Name:",font=("Times New Roman",20),bg="#89B1B1",fg="#000000")
+label3.grid(row=1,column=0)
+label4=Label(frame2,text="Product Price:",font=("Times New Roman",20),bg="#89B1B1",fg="#000000")
+label4.grid(row=2,column=0)
+label5=Label(frame2,text="Product Quantity:",font=("Times New Roman",20),bg="#89B1B1",fg="#000000")
+label5.grid(row=3,column=0)
+label6=Label(frame2,text="Mfg Company:",font=("Times New Roman",20),bg="#89B1B1",fg="#000000")
+label6.grid(row=4,column=0)
+label7=Label(frame2,text="Company contact:",font=("Times New Roman",20),bg="#89B1B1",fg="#000000")
+label7.grid(row=5,column=0)
+
+entry1=Entry(frame2,width=20,bd=2)
+entry1.grid(row=0,column=1,columnspan=2)
+entry2=Entry(frame2,width=20,bd=2)
+entry2.grid(row=1,column=1,columnspan=2)
+entry3=Entry(frame2,width=20,bd=2)
+entry3.grid(row=2,column=1,columnspan=2)
+entry4=Entry(frame2,width=20,bd=2)
+entry4.grid(row=3,column=1,columnspan=2)
+entry5=Entry(frame2,width=20,bd=2)
+entry5.grid(row=4,column=1,columnspan=2)
+entry6=Entry(frame2,width=20,bd=2)
+entry6.grid(row=5,column=1,columnspan=2)
+
+
+
+frame3=Frame(root,bg="white",bd=4)
+frame3.grid(row=2,rowspan=6,column=3,columnspan=3,sticky=N+W+E+S)
+
+scrolly=Scrollbar(frame3)
+scrolly.grid(row=0,column=1,sticky=N+S)
+scrollx=Scrollbar(frame3,orient=HORIZONTAL)
+scrollx.grid(row=1,column=0,sticky=W+E)
+
+mylist=Listbox(frame3,height=15,width=52,font=("Times New Roman",10),yscrollcommand=scrolly.set,xscrollcommand=scrollx.set)
+mylist.grid(row=0,column=0)
+
+scrolly.config(command=mylist.yview)
+scrollx.config(command=mylist.xview)
+
+frame4=Frame(root,bd=4)
+frame4.grid(row=8,rowspan=2,column=0,columnspan=6,sticky=N+W+E+S)
+
+
+button1=Button(frame4,text="SAVE",font=("Times New Roman",16),bg="#000000",fg="#FDFEFE",command=save)
+button1.grid(row=0,column=0,padx=10,pady=7)
+button2=Button(frame4,text="DELETE",font=("Times New Roman",16),bg="#000000",fg="#FDFEFE",command=remove)
+button2.grid(row=0,column=1,padx=10,pady=7)
+button3=Button(frame4,text="RESET",font=("Times New Roman",16),bg="#000000",fg="#FDFEFE",command=reset)
+button3.grid(row=0,column=2,padx=10,pady=7)
+button4=Button(frame4,text="SEARCH",font=("Times New Roman",16),bg="#000000",fg="#FDFEFE",command=search)
+button4.grid(row=0,column=3,padx=10,pady=7)
+button5=Button(frame4,text="UPDATE",font=("Times New Roman",16),bg="#000000",fg="#FDFEFE",command=update)
+button5.grid(row=0,column=4,padx=10,pady=7)
+button6=Button(frame4,text="SHOWDATA",font=("Times New Roman",16),bg="#000000",fg="#FDFEFE",command=show)
+button6.grid(row=0,column=5,pady=7)
+
+
+
+
+
+root.mainloop()
