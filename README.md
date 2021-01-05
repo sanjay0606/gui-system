@@ -11,7 +11,7 @@ from PIL import ImageTk,Image
 db=sqlc.connect(
     host="localhost",
     username="root",
-    password="S@njay123",
+    password="####",
     database="database_2"
    )
 
@@ -38,7 +38,7 @@ def w_finish():
     db=sqlc.connect(
         host="localhost",
         username="root",
-        password="S@njay123",
+        password="####",
         database="database_2"
          )
 
@@ -85,7 +85,7 @@ def d_finish():
         db=sqlc.connect(
         host="localhost",
         username="root",
-        password="S@njay123",
+        password="####",
         database="database_2"
          )
 
@@ -144,7 +144,7 @@ def deposit():
     db=sqlc.connect(
     host="localhost",
     username="root",
-    password="S@njay123",
+    password="####",
     database="database_2"
       )
 
@@ -196,7 +196,7 @@ def withdraw():
     db=sqlc.connect(
     host="localhost",
     username="root",
-    password="S@njay123",
+    password="####",
     database="database_2"
       )
 
@@ -239,7 +239,7 @@ def personel():
     db=sqlc.connect(
     host="localhost",
     username="root",
-    password="S@njay123",
+    password="####",
     database="database_2"
       )
 
@@ -289,7 +289,7 @@ def login_session():
         db=sqlc.connect(
         host="localhost",
         username="root",
-        password="S@njay123",
+        password="####",
         database="database_2"
         )
 
@@ -342,7 +342,7 @@ def finish_reg():
         db=sqlc.connect(
          host="localhost",
          username="root",
-         password="S@njay123",
+         password="####",
          database="database_2"
          )
 
